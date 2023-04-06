@@ -1,4 +1,5 @@
 const express = require('express');
+const validate = require('./validate');
 const user_router = express.Router();
 let users = [
     {
@@ -25,17 +26,8 @@ user_router.get('/:id', (req, res) => {
     res.status(200).json(result);
 })
 
-user_router.put('/:id', (req, res) => {
+user_router.put('/:id', validate,  (req, res) => {
     const id = req.params.id;
-    // users.forEach(user => {
-    //     if(user.id == id) {
-    //         user.name = req.body.name;
-    //         user.age = req.body.age;
-    //         user.gender = req.body.gender;
-    //     }
-    // })
-
-    //tối ưu hơn
     const user = users.find(user => user.id === parseInt(id))
     if (!user) {
         res.status(404).send("Not Found");
@@ -46,15 +38,7 @@ user_router.put('/:id', (req, res) => {
     res.status(204).send("Update successful")
 })
 
-user_router.post('/', (req, res) => {
-    // const user = {
-    //     "id": users.length,
-    //     "name": req.body.name,
-    //     "gender": req.body.gender,
-    //     "age": req.body.age
-    // }
-
-    //gọn code hơn
+user_router.post('/', validate, (req, res) => {
 
     const user = {
         "id": users.length,
@@ -65,19 +49,12 @@ user_router.post('/', (req, res) => {
 })
 
 user_router.delete('/:id', (req, res) => {
-    // const id = req.params.id;
-    // users.splice(users.indexOf(id), 1)
-    // console.log(users);
-    // res.status(204).send("Delete successful")
-
-    //tối ưu hơn
     const index = users.findIndex(user => user.id === parseInt(id));
     if (index === -1) {
         res.status(404).send("User not found");
         return;
     }
     users.splice(index, 1);
-    console.log(users);
     res.status(204).send("Delete successful");
 })
 module.exports = user_router;
