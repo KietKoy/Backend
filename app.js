@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 require('dotenv').config('')
 const userRoute = require('./routes/user')
-const authRoute = require('./routes/auth')
+const authRoute = require('./routes/auth/auth')
 app.use(express.json())
 app.use(express.urlencoded())
 
