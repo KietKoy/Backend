@@ -1,8 +1,16 @@
 const mysql = require('mysql'); 
-const connection = mysql.createConnection({
+require('dotenv').config('')
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: "",
+//     database: 'Sgroup',
+//     port: 3307,
+//   });
+  const connection = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: "",
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     port: process.env.DB_PORT,
   });

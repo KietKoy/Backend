@@ -3,13 +3,12 @@ const authRouter = express.Router();
 const jsonwebtoken = require('jsonwebtoken');
 const { validate } = require('../validate');
 const connection = require('../../database/connection');
-const verifyToken = require('../../helpers/JwtHelper');
+const {verifyToken, getUserIdByToken} = require('../../helpers/JwtHelper');
 const { hashPassword, comparePassword } = require('../../helpers/hash.js');
 const mailService = require('../../services/mail.services')
 const { authService } = require('./auth.service')
 const fs = require('fs');
 const crypto = require('crypto');
-const { request } = require('http');
 const PRIVATE_KEY = fs.readFileSync('./Key/private.pem');
 authRouter.post('/register', validate, async function (req, res) {
     const {
@@ -62,6 +61,7 @@ authRouter.post('/login', validate, async function (req, res, next) {
             const passwordDb = user.password;
             if (comparePassword(password, saltDb, passwordDb)) {
                 const jwt = jsonwebtoken.sign({
+                    id: user.id,
                     username: user.username,
                     email: user.email,
                     age: user.age,

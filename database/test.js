@@ -58,3 +58,6 @@ connection.query("SELECT * FROM users", (err, result) => {
 //process.env
 //
 // console.log(process.env.DB_USER);
+// const knexConnection = require('./knexConnection');
+
+// knexConnection.select().from('users').then(data => console.log(data))
