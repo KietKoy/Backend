@@ -29,4 +29,21 @@ const getUserIdByToken = (req, res, next) => {
         req.createBy = data.id;
     })
 }
-module.exports = {verifyToken, getUserIdByToken};
+const adminAuthentication = (req, res, next) => {
+    const authorizationHeader = req.headers.authorization;
+    const tokenUser = authorizationHeader.substring(7);
+    if(!tokenUser) {
+        return res.status(401).json({message: "No token provided"})
+    }
+    jwt.verify(tokenUser, PUBLIC_KEY, (err, data) => {
+        if(err) {
+            return res.status(401).json({message: err.message});
+        } 
+        if(!data.isAdmin) {
+            return res.status(401).json({message: "Your are not a admin"})
+        }
+        next();
+        req.user = data;
+    })
+}
+module.exports = {verifyToken, getUserIdByToken, adminAuthentication};

@@ -3,7 +3,7 @@ const { verifyToken, getUserIdByToken } = require('../helpers/JwtHelper');
 const { validate } = require('./validate');
 const usersRouter = express.Router();
 const knexConnection = require('../database/knexConnection')
-usersRouter.post('/create', verifyToken, validate, getUserIdByToken, (req, res, next) => {
+usersRouter.post('/create', validate, verifyToken, getUserIdByToken, (req, res, next) => {
     const createBy = req.createBy;
     const {
         username,
